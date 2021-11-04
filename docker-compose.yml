@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cmylampy
+    volumes:
+      - /var/lib/mysql
+    restart: always
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8080:80
+    env_file:
+      - .env
+    environment:
+      PMA_HOST: db
+
+  prestashop:
+    image: prestashop/prestashop:1.7.7.8
+    depends_on:
+      - db
+    ports:
+      - 80:80
+    environment:
+      PS_INSTALL_AUTO: 0
+      PS_ERASE_DB: 0
+      DB_SERVER: db
+      DB_USER: root
+      DB_PASSWD: root
+      DB_NAME: cmylampy
+      PS_DEV_MODE: 0
+      PS_DOMAIN: localhost:80
+      PS_SSL_ENABLED: 1
+      PS_SSL_ENABLED_EVERYWHERE: 1
+    volumes:
+      - /var/www/html
