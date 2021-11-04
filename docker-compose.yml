@@ -6,7 +6,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: cmylampy
     volumes:
-      - /var/lib/mysql
+      - ./db-dump:/var/lib/mysql
     restart: always
 
   phpmyadmin:
@@ -36,4 +36,4 @@ services:
       PS_SSL_ENABLED: 1
       PS_SSL_ENABLED_EVERYWHERE: 1
     volumes:
-      - /var/www/html
+      - ./webshop:/var/www/html
